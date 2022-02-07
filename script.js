@@ -1,4 +1,5 @@
 let addBtn = document.getElementById('addBtn');
+shownotes();
 
 addBtn.addEventListener("click", function (e) {
   let addTxt = document.getElementById('addTxt');
@@ -30,7 +31,7 @@ function shownotes() {
       <div class="card-body">
         <h5 class="card-title">${index+1}</h5>
         <p class = "card-text">${element}</p>
-        <button class="btn btn-primary" >Delete note</button>
+        <button id="${index}" onclick="deleteNotes(this.id)" class="btn btn-primary" >Delete note</button>
     </div>
 </div>`
   });
@@ -41,4 +42,18 @@ function shownotes() {
   else{
     notesElm.innerHTML = `No notes to show! Use "Add a notes" section to add your note`
   }
+}
+
+function deleteNotes(index){
+  let notes = localStorage.getItem("notes");
+  if (notes == null) {
+    notesObj = [];
+  }
+  else {
+    notesObj = JSON.parse(notes);
+  }
+
+  notesObj.splice(index,1)
+  localStorage.setItem("notes", JSON.stringify(notesObj));
+  shownotes();
 }
